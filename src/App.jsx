@@ -3,7 +3,7 @@ import { Field } from './Components/Field.jsx'
 import { Negocio } from './Components/Negocio.jsx'
 import { Botones } from './Components/Botones.jsx'
 import { Calculo } from './Components/Calculo.jsx'
-import {BasicModal} from './Components/BasicModal.jsx'
+import { BasicModal } from './Components/BasicModal.jsx'
 
 import './Styles/App.css'
 import axios from 'axios'
@@ -15,6 +15,7 @@ export class App extends Component {
             total_monedas: 100,
             resCalculo: 0
         }
+        this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
         this.paises = ['colombia', 'peru', 'chile', 'brasil', 'bolivia', 'panama', 'EEUU']
         this.nego_transmision = [0, 0, 0, 0, 0, 0, 0]
@@ -25,18 +26,67 @@ export class App extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]]
+        this.porcentaje_monedas = [[0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5]]
+        this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
     }
 
     handleClickSuma(pais, negocio) {
         const indexP = this.paises.indexOf(pais)
         const indexN = this.negocio.indexOf(negocio)
-        if (this.state.total_monedas > 0) {
-            this.nego_pais[indexP][indexN] = this.nego_pais[indexP][indexN] + 1
-            this.setState(state => ({
-                total_monedas: state.total_monedas - 1
-            }))
+        const res = this.validarAddMoneda(pais, negocio)
+        if ( res.sucess === true) {
+            if (this.state.total_monedas > 0) {
+                this.nego_pais[indexP][indexN] = this.nego_pais[indexP][indexN] + 1
+                this.setState(state => ({
+                    total_monedas: state.total_monedas - 1
+                }))
+            }
+        }else{
+            alert(res.msg)
+        }
+
+    }
+
+    validarAddMoneda(pais, negocio) {
+        //Este método valida el total de monedas
+        const indexP = this.paises.indexOf(pais)
+        const indexN = this.negocio.indexOf(negocio)
+        if (this.nego_pais[indexP][indexN]+1 < this.total * this.porcentaje_monedas[indexP][indexN]) {
+            if (this.totalXPais(pais) < this.porcentaje_pais[indexP] * this.total) {
+                return {
+                    'sucess': true,
+                    'msg': 'Todo ok'
+                };
+            } else {
+                return {
+                    'sucess': false,
+                    'msg': `El total del país ${pais} excede el ${this.porcentaje_pais[indexP]*100}% permitido`
+                };
+            }
+        } else {
+            return {
+                'sucess': false,
+                'msg': `Ha superado el número total de monedas permitidos en este país`
+            };
         }
     }
+
+    totalXPais(pais) {
+        //Este método devuelve la suma total por país
+        let suma = 0;
+        const index = this.paises.indexOf(pais)
+        for (var i = 0; i < this.negocio.length; i++) {
+            suma = suma + this.nego_pais[index][i]
+        }
+        return suma
+    }
+
     handleClickResta(pais, negocio) {
         const indexP = this.paises.indexOf(pais)
         const indexN = this.negocio.indexOf(negocio)
@@ -91,7 +141,7 @@ export class App extends Component {
                     this.setState(state => ({
                         resCalculo: response.data.resultado
                     }))
-                    alert('¡Cálculo éxitoso!: '+response.data.resultado)
+                    alert('¡Cálculo éxitoso!: ' + response.data.resultado)
                 } else {
                     alert(response.data.msg)
                 }
@@ -102,7 +152,7 @@ export class App extends Component {
     }
 
     render() {
-        const { total_monedas, resCalculo} = this.state
+        const { total_monedas, resCalculo } = this.state
         return (
             <Fragment>
                 <Calculo valor={resCalculo} total_monedas={total_monedas} />
@@ -129,7 +179,7 @@ export class App extends Component {
                 <Field pais={"Perú"} campo={this.nego_pais[1][3]} suma={() => this.handleClickSuma('peru', 'vias')} resta={() => this.handleClickResta('peru', 'vias')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][3]} suma={() => this.handleClickSuma('chile', 'vias')} resta={() => this.handleClickResta('chile', 'vias')} />
                 <Botones calcular={() => this.submitHandler()} />
-                <BasicModal/>
+                <BasicModal />
             </Fragment>
         )
     }

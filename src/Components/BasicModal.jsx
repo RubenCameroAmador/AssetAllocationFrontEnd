@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 //import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 import '../Styles/BasicModal.css'
 
 const style = {
@@ -25,7 +24,7 @@ export function BasicModal() {
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
-        setOpen(true); 
+        setOpen(true);
     }, []);
 
     return (
@@ -37,18 +36,20 @@ export function BasicModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6">
-                        <h2 className='intro_header'>¡Bienvenidos!</h2>
-                        <h4 className='intro_rules'>Reglas de juego</h4>
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <div>
+                        <>
+                            <h2 className='intro_header'>¡Bienvenidos!</h2>
+                            <h4 className='intro_rules'>Reglas de juego</h4>
+                        </>
+                    </div>
+                    <div>
                         <ol>
                             <li>Regla</li>
                             <li>Regla</li>
                             <li>Regla</li>
                             <li>Regla</li>
                         </ol>
-                    </Typography>
+                    </div>
                 </Box>
             </Modal>
         </div>

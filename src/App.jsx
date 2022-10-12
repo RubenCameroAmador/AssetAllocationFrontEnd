@@ -3,7 +3,7 @@ import { Field } from './Components/Field.jsx'
 import { Negocio } from './Components/Negocio.jsx'
 import { Botones } from './Components/Botones.jsx'
 import { Calculo } from './Components/Calculo.jsx'
-import { GameRules } from './Components/GameRules.jsx'
+import {BasicModal} from './Components/BasicModal.jsx'
 
 import './Styles/App.css'
 import axios from 'axios'
@@ -85,12 +85,13 @@ export class App extends Component {
     }
 
     submitHandler() {
-        axios.post('http://127.0.0.1:9999/modelo', this.createJson())
+        axios.post('https://assetallocationbackend.herokuapp.com/modelo', this.createJson())
             .then(response => {
                 if (response.data.sucess) {
                     this.setState(state => ({
                         resCalculo: response.data.resultado
                     }))
+                    alert('¡Cálculo éxitoso!: '+response.data.resultado)
                 } else {
                     alert(response.data.msg)
                 }
@@ -128,6 +129,7 @@ export class App extends Component {
                 <Field pais={"Perú"} campo={this.nego_pais[1][3]} suma={() => this.handleClickSuma('peru', 'vias')} resta={() => this.handleClickResta('peru', 'vias')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][3]} suma={() => this.handleClickSuma('chile', 'vias')} resta={() => this.handleClickResta('chile', 'vias')} />
                 <Botones calcular={() => this.submitHandler()} />
+                <BasicModal/>
             </Fragment>
         )
     }

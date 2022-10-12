@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+.intro_header{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+.intro_rules{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    margin-top: 5px;
+}

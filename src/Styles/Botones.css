@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+.contenedor{
+    max-width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.boton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    margin-top: 20px;
+    border-radius: 30px;
+    border: 0px;
+    background: #2193b0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6dd5ed, #2193b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.calcular_icon{
+    margin-right: 5px;
+}
+.calcular_valor{
+    margin-left: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #FFFFFF;
+}

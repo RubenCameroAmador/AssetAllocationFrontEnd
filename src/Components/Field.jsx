@@ -11,7 +11,7 @@ export class Field extends Component {
         return (
             <div className='container'>
                 <div className='container_pais'>
-                    <h3>{this.props.pais}:</h3>
+                    <h3>{this.props.pais}</h3>
                 </div>
                 <div className='container_logic'>
                     <button className='left' onClick={this.props.resta} >-</button>

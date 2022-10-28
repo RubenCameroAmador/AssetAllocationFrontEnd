@@ -9,7 +9,7 @@ export class App extends Component {
       <BrowserRouter>
         <Routes >
           <Route exact path="/" element={<Login/>} />
-          <Route path="/game2030/:id" element={<Game/>} />
+          <Route exact path="/game2030/:id" element={<Game/>} />
         </Routes >
       </BrowserRouter>
     )

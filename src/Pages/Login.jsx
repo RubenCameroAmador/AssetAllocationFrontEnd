@@ -1,7 +1,7 @@
-import React, { Fragment, Component } from 'react'
+import React, {  Component } from 'react'
 import axios from 'axios'
 import { getLocalStorage, saveInLocalStorage } from '../helpers';
-//import { Link } from "react-router-dom"
+import '../Styles/Login.css'
 
 export class Login extends Component {
     //const { activateAuth } = useContext(UserContext)
@@ -39,29 +39,31 @@ export class Login extends Component {
     render() {
         const { nickname, password } = this.state
         return (
-            <Fragment>
-                <form onSubmit={this.submitHandler}>
-                    <div>
-                        <input type="text"
-                            value={nickname}
-                            name='nickname'
-                            placeholder='Usuario'
-                            onChange={this.changeHandler}
-                        />
-                    </div>
-                    <div>
-                        <input type="password"
-                            value={password}
-                            name='password'
-                            placeholder='Contraseña'
-                            onChange={this.changeHandler}
-                        />
-                    </div>
-                    <button type='submit'>
-                        Ingresar
-                    </button>
-                </form>
-            </Fragment>
+                <div className='fondo'>
+                    <div className='contenedor'>
+                        <form onSubmit={this.submitHandler}>
+                            <div>
+                                <input type="text"
+                                    value={nickname}
+                                    name='nickname'
+                                    placeholder='Usuario'
+                                    onChange={this.changeHandler}
+                                />
+                            </div>
+                            <div>
+                                <input type="password"
+                                    value={password}
+                                    name='password'
+                                    placeholder='Contraseña'
+                                    onChange={this.changeHandler}
+                                />
+                            </div>
+                            <button type='submit'>
+                                Ingresar
+                            </button>
+                        </form>
+                </div>
+            </div>
         )
     }
 }

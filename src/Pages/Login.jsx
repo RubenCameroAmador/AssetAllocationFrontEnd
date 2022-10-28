@@ -1,49 +1,68 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, Component } from 'react'
 import axios from 'axios'
+import { getLocalStorage, saveInLocalStorage } from '../helpers';
+//import { Link } from "react-router-dom"
 
-export function Login() {
-    const [nickname, setNickname] = useState('')
-    const [password, setPassword] = useState('')
-    const [user, setUser] = useState(null)
+export class Login extends Component {
+    //const { activateAuth } = useContext(UserContext)
+    constructor(props) {
+        super(props)
+        this.state = {
+            nickname: getLocalStorage('user_name'),
+            password: ''
+        }
+        this.ruta = ""
+    }
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        axios.post('http://127.0.0.1:7777/login', { nickname, password })
+    changeHandler = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    submitHandler = e => {
+        e.preventDefault()
+        // 'http://127.0.0.1:7777/login'
+        axios.post('https://assetallocationbackend.herokuapp.com/usuario/validar', this.state)
             .then(response => {
-                const user = response
-                setUser(user)
-                setNickname('')
-                setPassword('')
-                console.log(user)
+                console.log(response)
+                console.log('ingreso a todo')
+                // saveInLocalStorage("token", response.data.token)
+                saveInLocalStorage("user_id", response.data._id)
+                saveInLocalStorage("user_name", response.data.nickname)
+                this.ruta = `game2030/${response.data._id}`
+                window.location.href = this.ruta
             })
             .catch(error => {
-                console.log('Bad username or password')
+                alert('Bad username or password')
             })
     }
 
-    
-
-    return (
-        <Fragment>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input type="text"
-                        value={nickname}
-                        name='Nickname'
-                        placeholder='Nickname'
-                        onChange={({ target }) => setNickname(target.value)} />
-                </div>
-                <div>
-                    <input type="password"
-                        value={password}
-                        name='Password'
-                        placeholder='Password'
-                        onChange={({ target }) => setPassword(target.value)} />
-                </div>
-                <button>
-                    Login
-                </button>
-            </form>
-        </Fragment>
-    )
+    render() {
+        const { nickname, password } = this.state
+        return (
+            <Fragment>
+                <form onSubmit={this.submitHandler}>
+                    <div>
+                        <input type="text"
+                            value={nickname}
+                            name='nickname'
+                            placeholder='Usuario'
+                            onChange={this.changeHandler}
+                        />
+                    </div>
+                    <div>
+                        <input type="password"
+                            value={password}
+                            name='password'
+                            placeholder='Contraseña'
+                            onChange={this.changeHandler}
+                        />
+                    </div>
+                    <button type='submit'>
+                        Ingresar
+                    </button>
+                </form>
+            </Fragment>
+        )
+    }
 }
+export default Login

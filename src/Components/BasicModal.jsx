@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useEffect } from 'react'
 import '../Styles/BasicModal.css'
+import { getLocalStorage} from '../helpers';
 
 const style = {
     position: 'absolute',
@@ -38,7 +39,7 @@ export function BasicModal() {
                 <Box sx={style}>
                     <div>
                         <>
-                            <h2 className='intro_header'>¡Bienvenidos!</h2>
+                            <h2 className='intro_header'>¡Bienvenido {getLocalStorage("user_name")}!</h2>
                             <h4 className='intro_rules'>Reglas de juego</h4>
                         </>
                     </div>

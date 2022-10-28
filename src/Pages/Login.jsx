@@ -28,7 +28,7 @@ export class Login extends Component {
                 // saveInLocalStorage("token", response.data.token)
                 saveInLocalStorage("user_id", response.data._id)
                 saveInLocalStorage("user_name", response.data.nickname)
-                this.ruta = `./game2030`
+                this.ruta = `./game2030/${response.data._id}`
                 window.location.href = this.ruta
             })
             .catch(error => {

@@ -178,7 +178,7 @@ export class Game extends Component {
                 <Field pais={"Colombia"} campo={this.nego_pais[0][3]} suma={() => this.handleClickSuma('colombia', 'vias')} resta={() => this.handleClickResta('colombia', 'vias')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][3]} suma={() => this.handleClickSuma('peru', 'vias')} resta={() => this.handleClickResta('peru', 'vias')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][3]} suma={() => this.handleClickSuma('chile', 'vias')} resta={() => this.handleClickResta('chile', 'vias')} />
-                <Botones calcular={() => this.submitHandler()} />
+                <Botones calcular={() => this.submitHandler()} datos ={this.nego_pais}/>
                 <BasicModal />
             </Fragment>
         )

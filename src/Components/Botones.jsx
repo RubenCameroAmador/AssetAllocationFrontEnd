@@ -2,7 +2,7 @@ import React from 'react'
 import { Charts } from './Charts.jsx'
 import '../Styles/Botones.css'
 
-export function Botones({ calcular, datos }) {
+export function Botones({ calcular, datos, enviar }) {
   return (
     <div className='contenedor'>
       <Charts datos ={datos}/>
@@ -20,7 +20,7 @@ export function Botones({ calcular, datos }) {
         </svg>
         <h4 className='calcular_valor'>Calcular</h4>
       </button>
-      <button className='boton'>
+      <button className='boton' onClick={enviar}>
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-send calcular_icon" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <line x1="10" y1="14" x2="21" y2="3" />

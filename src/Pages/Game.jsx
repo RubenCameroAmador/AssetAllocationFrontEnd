@@ -4,6 +4,7 @@ import { Negocio } from '../Components/Negocio.jsx'
 import { Botones } from '../Components/Botones.jsx'
 import { Calculo } from '../Components/Calculo.jsx'
 import { BasicModal } from '../Components/BasicModal.jsx'
+import {Progress} from '../Components/Progress.jsx'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -13,7 +14,8 @@ export class Game extends Component {
         super(props)
         this.state = {
             total_monedas: 100,
-            resCalculo: 0
+            resCalculo: 0,
+            open:false
         }
         this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
@@ -135,6 +137,7 @@ export class Game extends Component {
     }
 
     submitHandler() {
+        this.handleProgress();
         axios.post('https://assetallocationbackend.herokuapp.com/modelo', this.createJson())
             .then(response => {
                 if (response.data.sucess) {
@@ -145,14 +148,22 @@ export class Game extends Component {
                 } else {
                     alert(response.data.msg)
                 }
+                this.setState({open: false})
+                console.log("despues de: ",this.state.open)
             })
             .catch(error => {
                 console.log(error)
+                this.setState({open: false})
             })
     }
 
+    handleProgress(){
+        console.log("antes de: ",this.state.open)
+        this.setState({open: true})
+    }
+
     render() {
-        const { total_monedas, resCalculo } = this.state
+        const { total_monedas, resCalculo, open } = this.state
         return (
             <Fragment>
                 <Calculo valor={resCalculo} total_monedas={total_monedas} />
@@ -179,7 +190,8 @@ export class Game extends Component {
                 <Field pais={"Perú"} campo={this.nego_pais[1][3]} suma={() => this.handleClickSuma('peru', 'vias')} resta={() => this.handleClickResta('peru', 'vias')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][3]} suma={() => this.handleClickSuma('chile', 'vias')} resta={() => this.handleClickResta('chile', 'vias')} />
                 <Botones calcular={() => this.submitHandler()} datos ={this.nego_pais}/>
-                <BasicModal />
+                <Progress abrir= {open}/>
+                <BasicModal/>
             </Fragment>
         )
     }

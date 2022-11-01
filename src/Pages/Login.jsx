@@ -28,7 +28,7 @@ export class Login extends Component {
             nickname: this.state.nickname,
             password: this.state.password
         }
-        console.log(data)
+        this.handleProgress()
         axios.post('https://assetallocationbackend.herokuapp.com/usuario/validar', data)
             .then(response => {
                 console.log(response)
@@ -44,6 +44,10 @@ export class Login extends Component {
                 this.setState({ open: false })
                 alert('Bad username or password')
             })
+    }
+    handleProgress(){
+        console.log("antes de: ",this.state.open)
+        this.setState({open: true})
     }
 
     render() {

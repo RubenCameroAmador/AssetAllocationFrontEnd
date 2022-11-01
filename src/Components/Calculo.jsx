@@ -5,7 +5,7 @@ export function Calculo({ valor, total_monedas }) {
   return (
     <Fragment>
       <div className='contenedor_calculo'>
-        <div>
+        <div className='encabezado monedas'>
           <h3 className='Monedas_disponibles'>Monedas disponibles</h3>
           <div className='total_monedas'>
             <div className='total_monedas_logo'>
@@ -19,8 +19,9 @@ export function Calculo({ valor, total_monedas }) {
             <h4 className='total_monedas_h4'>{total_monedas}/100</h4>
           </div>
         </div>
-        <div className='resultado'>
-          <h4 className='header'>Cálculo {valor}</h4>
+        <div className='encabezado'>
+          <h4 className='header'>Resultado cálculo</h4>
+          <h4 className='valor'>{valor}</h4>
         </div>
       </div>
     </Fragment>

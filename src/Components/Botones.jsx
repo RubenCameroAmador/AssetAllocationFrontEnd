@@ -1,11 +1,11 @@
 import React from 'react'
-import { Charts } from './Charts.jsx'
+// import { Charts } from './Charts.jsx'
 import '../Styles/Botones.css'
 
 export function Botones({ calcular, datos, enviar }) {
   return (
     <div className='contenedor'>
-      <Charts datos ={datos}/>
+      {/* <Charts datos ={datos}/> */}
       <button className='boton' onClick={calcular}>
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-calculator calcular_icon" width="30" height="30" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />

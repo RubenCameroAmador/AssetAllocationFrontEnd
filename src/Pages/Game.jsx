@@ -4,7 +4,8 @@ import { Negocio } from '../Components/Negocio.jsx'
 import { Botones } from '../Components/Botones.jsx'
 import { Calculo } from '../Components/Calculo.jsx'
 import { BasicModal } from '../Components/BasicModal.jsx'
-import {Progress} from '../Components/Progress.jsx'
+import { Progress } from '../Components/Progress.jsx'
+import {getLocalStorage} from '../helpers.js'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -15,29 +16,29 @@ export class Game extends Component {
         this.state = {
             total_monedas: 100,
             resCalculo: 0,
-            open:false
+            open: false
         }
         this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
         this.paises = ['colombia', 'peru', 'chile', 'brasil', 'bolivia', 'panama', 'EEUU', 'mexico', 'argentina']
         this.nego_transmision = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         this.nego_pais = [[0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0],
-                          [0, 0, 0, 0]]
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]]
         this.porcentaje_monedas = [[0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5],
-                                   [0.5, 0.5, 0.5, 0.5]]
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5],
+        [0.5, 0.5, 0.5, 0.5]]
         this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
     }
 
@@ -45,14 +46,14 @@ export class Game extends Component {
         const indexP = this.paises.indexOf(pais)
         const indexN = this.negocio.indexOf(negocio)
         const res = this.validarAddMoneda(pais, negocio)
-        if ( res.sucess === true) {
+        if (res.sucess === true) {
             if (this.state.total_monedas > 0) {
                 this.nego_pais[indexP][indexN] = this.nego_pais[indexP][indexN] + 1
                 this.setState(state => ({
                     total_monedas: state.total_monedas - 1
                 }))
             }
-        }else{
+        } else {
             alert(res.msg)
         }
 
@@ -62,7 +63,7 @@ export class Game extends Component {
         //Este método valida el total de monedas
         const indexP = this.paises.indexOf(pais)
         const indexN = this.negocio.indexOf(negocio)
-        if (this.nego_pais[indexP][indexN]+1 < this.total * this.porcentaje_monedas[indexP][indexN]) {
+        if (this.nego_pais[indexP][indexN] + 1 < this.total * this.porcentaje_monedas[indexP][indexN]) {
             if (this.totalXPais(pais) < this.porcentaje_pais[indexP] * this.total) {
                 return {
                     'sucess': true,
@@ -71,7 +72,7 @@ export class Game extends Component {
             } else {
                 return {
                     'sucess': false,
-                    'msg': `El total del país ${pais} excede el ${this.porcentaje_pais[indexP]*100}% permitido`
+                    'msg': `El total del país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
                 };
             }
         } else {
@@ -140,7 +141,7 @@ export class Game extends Component {
                 "brasil": this.nego_pais[3][3],
                 "panama": this.nego_pais[5][3],
                 "mexico": this.nego_pais[7][3]
-                
+
             }
         ]
         return body
@@ -158,18 +159,32 @@ export class Game extends Component {
                 } else {
                     alert(response.data.msg)
                 }
-                this.setState({open: false})
-                console.log("despues de: ",this.state.open)
+                this.setState({ open: false })
+                console.log("despues de: ", this.state.open)
             })
             .catch(error => {
                 console.log(error)
-                this.setState({open: false})
+                this.setState({ open: false })
             })
     }
 
-    handleProgress(){
-        console.log("antes de: ",this.state.open)
-        this.setState({open: true})
+    submitSend() {
+        this.handleProgress();
+        const ruta_envio = `https://assetallocationbackend.herokuapp.com/resultado/user/${getLocalStorage("user_id")}/year/2030`
+        axios.post(ruta_envio, this.createJson())
+            .then(response => {
+                alert(response.data.msg)
+                this.setState({ open: false })
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({ open: false })
+            })
+    }
+
+    handleProgress() {
+        console.log("antes de: ", this.state.open)
+        this.setState({ open: true })
     }
 
     render() {
@@ -205,9 +220,9 @@ export class Game extends Component {
                 <Field pais={"Panamá"} campo={this.nego_pais[5][3]} suma={() => this.handleClickSuma('panama', 'vias')} resta={() => this.handleClickResta('panama', 'vias')} />
                 <Field pais={"Brasil"} campo={this.nego_pais[3][3]} suma={() => this.handleClickSuma('brasil', 'vias')} resta={() => this.handleClickResta('brasil', 'vias')} />
                 <Field pais={"México"} campo={this.nego_pais[7][3]} suma={() => this.handleClickSuma('mexico', 'vias')} resta={() => this.handleClickResta('mexico', 'vias')} />
-                <Botones calcular={() => this.submitHandler()} datos ={this.nego_pais}/>
-                <Progress abrir= {open}/>
-                <BasicModal/>
+                <Botones calcular={() => this.submitHandler()} datos={this.nego_pais} envio={() => this.submitSend()} />
+                <Progress abrir={open} />
+                <BasicModal />
             </Fragment>
         )
     }

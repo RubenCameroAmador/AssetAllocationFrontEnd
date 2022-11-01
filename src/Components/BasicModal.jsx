@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useEffect } from 'react'
 import '../Styles/BasicModal.css'
-import { getLocalStorage} from '../helpers';
+import { getLocalStorage } from '../helpers';
 
 const style = {
     position: 'absolute',
@@ -43,12 +43,12 @@ export function BasicModal() {
                             <h4 className='intro_rules'>Reglas de juego</h4>
                         </>
                     </div>
-                    <div>
+                    <div className='intro-contenido'>
+                        <p className='intro-contenido-parrafo'>En este juego tiene la misión de distribuir unidades monetarias en diferentes negocios y países, tenga en cuenta que los recursos son limitados así que la forma como los distribuya garantiza una buena o mala calificación</p>
                         <ol>
-                            <li>Regla</li>
-                            <li>Regla</li>
-                            <li>Regla</li>
-                            <li>Regla</li>
+                            <li>El total de monedas que puede distribuir son 100</li>
+                            <li>La cantidad de monedas que puede distribuir entre negocios y países está limitada por el potencial capturable</li>
+                            <li>Se ejecutarán automáticamente algunas restricciones, les aparecerá en forma de mensaje</li>
                         </ol>
                     </div>
                 </Box>

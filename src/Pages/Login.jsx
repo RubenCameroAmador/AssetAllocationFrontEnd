@@ -3,6 +3,7 @@ import axios from 'axios'
 import { getLocalStorage, saveInLocalStorage } from '../helpers';
 import '../Styles/Login.css'
 import { Progress } from '../Components/Progress.jsx'
+import isaLogo from '../image/isa_login.png'
 
 export class Login extends Component {
     //const { activateAuth } = useContext(UserContext)
@@ -36,11 +37,11 @@ export class Login extends Component {
                 saveInLocalStorage("user_id", response.data._id)
                 saveInLocalStorage("user_name", response.data.nickname)
                 this.ruta = `./game2030/${response.data._id}`
-                this.setState({open: false})
+                this.setState({ open: false })
                 window.location.href = this.ruta
             })
             .catch(error => {
-                this.setState({open: false})
+                this.setState({ open: false })
                 alert('Bad username or password')
             })
     }
@@ -49,30 +50,45 @@ export class Login extends Component {
         const { nickname, password, open } = this.state
         return (
             <Fragment>
-                <div className='contenedor'>
-                    <form onSubmit={this.submitHandler}>
-                        <div>
-                            <input type="text"
-                                value={nickname}
-                                name='nickname'
-                                placeholder='Usuario'
-                                onChange={this.changeHandler}
-                            />
+                <div className='contenedor_login'>
+                    <div className='image'>
+                        <div className='image_logo'>
+                            <img src={isaLogo} alt="Logo de isa" />
                         </div>
-                        <div>
-                            <input type="password"
-                                value={password}
-                                name='password'
-                                placeholder='Contraseña'
-                                onChange={this.changeHandler}
-                            />
+                        <div className='image_title'>
+                            <h3 className='image_title_taller'>Taller Junta Directiva</h3>
+                            <h4 className='image_title_asset'>Asset allocation</h4>
                         </div>
-                        <button type='submit'>
-                            Ingresar
-                        </button>
-                    </form>
+                    </div>
+                    <div className='form'>
+                        <form onSubmit={this.submitHandler}>
+                            <div className='input-container'>
+                                <label className='input-container-label'>Usuario</label>
+                                <input type="text"
+                                    value={nickname}
+                                    name='nickname'
+                                    placeholder='Digite el usuario'
+                                    onChange={this.changeHandler}
+                                />
+                            </div>
+                            <div className='input-container'>
+                                <label className='input-container-label'>Contraseña</label>
+                                <input type="password"
+                                    value={password}
+                                    name='password'
+                                    placeholder='Digite la contraseña'
+                                    onChange={this.changeHandler}
+                                />
+                            </div>
+                            <div>
+                                <button type='submit' className='button-container'>
+                                    Ingresar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <Progress abrir = {open}/>
+                <Progress abrir={open} />
             </Fragment>
         )
     }

@@ -19,23 +19,26 @@ export class Game extends Component {
         }
         this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
-        this.paises = ['colombia', 'peru', 'chile', 'brasil', 'bolivia', 'panama', 'EEUU']
-        this.nego_transmision = [0, 0, 0, 0, 0, 0, 0]
+        this.paises = ['colombia', 'peru', 'chile', 'brasil', 'bolivia', 'panama', 'EEUU', 'mexico', 'argentina']
+        this.nego_transmision = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         this.nego_pais = [[0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]]
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0]]
         this.porcentaje_monedas = [[0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5]]
-        this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+                                   [0.5, 0.5, 0.5, 0.5],
+                                   [0.5, 0.5, 0.5, 0.5],
+                                   [0.5, 0.5, 0.5, 0.5],
+                                   [0.5, 0.5, 0.5, 0.5],
+                                   [0.5, 0.5, 0.5, 0.5],
+                                   [0.5, 0.5, 0.5, 0.5],
+                                   [0.5, 0.5, 0.5, 0.5]]
+        this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
     }
 
     handleClickSuma(pais, negocio) {
@@ -110,14 +113,17 @@ export class Game extends Component {
                 "brasil": this.nego_pais[3][0],
                 "bolivia": this.nego_pais[4][0],
                 "panama": this.nego_pais[5][0],
-                "EEUU": this.nego_pais[6][0]
+                "EEUU": this.nego_pais[6][0],
+                "mexico": this.nego_pais[7][0]
             },
             {
                 "categoria": "Almacenamiento",
                 "colombia": this.nego_pais[0][1],
                 "peru": this.nego_pais[1][1],
                 "chile": this.nego_pais[2][1],
-                "brasil": this.nego_pais[3][1]
+                "brasil": this.nego_pais[3][1],
+                "EEUU": this.nego_pais[6][1],
+                "mexico": this.nego_pais[7][1]
             },
             {
                 "categoria": "SED",
@@ -131,6 +137,10 @@ export class Game extends Component {
                 "colombia": this.nego_pais[0][3],
                 "peru": this.nego_pais[1][3],
                 "chile": this.nego_pais[2][3],
+                "brasil": this.nego_pais[3][3],
+                "panama": this.nego_pais[5][3],
+                "mexico": this.nego_pais[7][3]
+                
             }
         ]
         return body
@@ -175,11 +185,14 @@ export class Game extends Component {
                 <Field pais={"Bolivia"} campo={this.nego_pais[4][0]} suma={() => this.handleClickSuma('bolivia', 'transmisión')} resta={() => this.handleClickResta('bolivia', 'transmisión')} />
                 <Field pais={"Panamá"} campo={this.nego_pais[5][0]} suma={() => this.handleClickSuma('panama', 'transmisión')} resta={() => this.handleClickResta('panama', 'transmisión')} />
                 <Field pais={"EE.UU"} campo={this.nego_pais[6][0]} suma={() => this.handleClickSuma('EEUU', 'transmisión')} resta={() => this.handleClickResta('EEUU', 'transmisión')} />
+                <Field pais={"México"} campo={this.nego_pais[7][0]} suma={() => this.handleClickSuma('mexico', 'transmisión')} resta={() => this.handleClickResta('mexico', 'transmisión')} />
                 <Negocio nombre={'Almacenamiento'} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][1]} suma={() => this.handleClickSuma('colombia', 'almacenamiento')} resta={() => this.handleClickResta('colombia', 'almacenamiento')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][1]} suma={() => this.handleClickSuma('peru', 'almacenamiento')} resta={() => this.handleClickResta('peru', 'almacenamiento')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][1]} suma={() => this.handleClickSuma('chile', 'almacenamiento')} resta={() => this.handleClickResta('chile', 'almacenamiento')} />
                 <Field pais={"Brasil"} campo={this.nego_pais[3][1]} suma={() => this.handleClickSuma('brasil', 'almacenamiento')} resta={() => this.handleClickResta('brasil', 'almacenamiento')} />
+                <Field pais={"EE.UU"} campo={this.nego_pais[6][1]} suma={() => this.handleClickSuma('EEUU', 'almacenamiento')} resta={() => this.handleClickResta('EEUU', 'almacenamiento')} />
+                <Field pais={"México"} campo={this.nego_pais[7][1]} suma={() => this.handleClickSuma('mexico', 'almacenamiento')} resta={() => this.handleClickResta('mexico', 'almacenamiento')} />
                 <Negocio nombre={'SED'} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][2]} suma={() => this.handleClickSuma('colombia', 'SED')} resta={() => this.handleClickResta('colombia', 'SED')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][2]} suma={() => this.handleClickSuma('peru', 'SED')} resta={() => this.handleClickResta('peru', 'SED')} />
@@ -189,6 +202,9 @@ export class Game extends Component {
                 <Field pais={"Colombia"} campo={this.nego_pais[0][3]} suma={() => this.handleClickSuma('colombia', 'vias')} resta={() => this.handleClickResta('colombia', 'vias')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][3]} suma={() => this.handleClickSuma('peru', 'vias')} resta={() => this.handleClickResta('peru', 'vias')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][3]} suma={() => this.handleClickSuma('chile', 'vias')} resta={() => this.handleClickResta('chile', 'vias')} />
+                <Field pais={"Panamá"} campo={this.nego_pais[5][3]} suma={() => this.handleClickSuma('panama', 'vias')} resta={() => this.handleClickResta('panama', 'vias')} />
+                <Field pais={"Brasil"} campo={this.nego_pais[3][3]} suma={() => this.handleClickSuma('brasil', 'vias')} resta={() => this.handleClickResta('brasil', 'vias')} />
+                <Field pais={"México"} campo={this.nego_pais[7][3]} suma={() => this.handleClickSuma('mexico', 'vias')} resta={() => this.handleClickResta('mexico', 'vias')} />
                 <Botones calcular={() => this.submitHandler()} datos ={this.nego_pais}/>
                 <Progress abrir= {open}/>
                 <BasicModal/>

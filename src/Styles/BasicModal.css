@@ -10,3 +10,14 @@
     text-align: center;
     margin-top: 5px;
 }
+
+.intro-contenido-parrafo{
+    text-align: justify;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+}
+li{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    text-align: justify;
+}

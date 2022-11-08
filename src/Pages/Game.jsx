@@ -5,7 +5,8 @@ import { Botones } from '../Components/Botones.jsx'
 import { Calculo } from '../Components/Calculo.jsx'
 import { BasicModal } from '../Components/BasicModal.jsx'
 import { Progress } from '../Components/Progress.jsx'
-import {getLocalStorage} from '../helpers.js'
+import { getLocalStorage } from '../helpers.js'
+// import { CalculoMsg } from '../Components/CalculoMsg.jsx'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -16,7 +17,12 @@ export class Game extends Component {
         this.state = {
             total_monedas: 100,
             resCalculo: 0,
-            open: false
+            open: false,
+            porTrans: 0,
+            porAlma: 0,
+            porSED: 0,
+            porVias: 0,
+            // openCalculo: false
         }
         this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
@@ -56,6 +62,7 @@ export class Game extends Component {
         } else {
             alert(res.msg)
         }
+        this.porcentajeAsignadoNegocio()
 
     }
 
@@ -93,6 +100,16 @@ export class Game extends Component {
         return suma
     }
 
+    totalXNegocio(negocio) {
+        //Este método devuelve la suma total por negocio
+        let suma = 0;
+        const index = this.negocio.indexOf(negocio)
+        for (var i = 0; i < this.paises.length; i++) {
+            suma = suma + this.nego_pais[i][index]
+        }
+        return suma
+    }
+
     handleClickResta(pais, negocio) {
         const indexP = this.paises.indexOf(pais)
         const indexN = this.negocio.indexOf(negocio)
@@ -102,6 +119,15 @@ export class Game extends Component {
                 total_monedas: state.total_monedas + 1
             }))
         }
+        this.porcentajeAsignadoNegocio()
+    }
+
+    porcentajeAsignadoNegocio() {
+        const transmisión = this.totalXNegocio('transmisión')
+        const almacenamiento = this.totalXNegocio('almacenamiento')
+        const sed = this.totalXNegocio('SED')
+        const vias = this.totalXNegocio('vias')
+        this.setState({ porTrans: transmisión, porAlma: almacenamiento, porSED: sed, porVias: vias })
     }
 
     createJson() {
@@ -155,9 +181,9 @@ export class Game extends Component {
                     this.setState(state => ({
                         resCalculo: response.data.resultado
                     }))
-                    alert('¡Cálculo éxitoso!: ' + response.data.resultado)
+                    alert('¡Cálculo éxitoso!: ' + response.data.resultado) //Justo aquí, positivo
                 } else {
-                    alert(response.data.msg)
+                    alert(response.data.msg) //Justo aquí, negativo
                 }
                 this.setState({ open: false })
                 console.log("despues de: ", this.state.open)
@@ -169,17 +195,22 @@ export class Game extends Component {
     }
 
     submitSend() {
-        this.handleProgress();
-        const ruta_envio = `https://assetallocationbackend.herokuapp.com/resultado/user/${getLocalStorage("user_id")}/year/2030`
-        axios.post(ruta_envio, this.createJson())
-            .then(response => {
-                alert(response.data.msg)
-                this.setState({ open: false })
-            })
-            .catch(error => {
-                console.log(error)
-                this.setState({ open: false })
-            })
+        let respuesta = window.confirm("¿Desea enviar y continuar con el siguiente horizonte de tiempo?")
+        if (respuesta) {
+            this.handleProgress();
+            const ruta_envio = `https://assetallocationbackend.herokuapp.com/resultado/user/${getLocalStorage("user_id")}/year/2030`
+            axios.post(ruta_envio, this.createJson())
+                .then(response => {
+                    alert(response.data.msg)
+                    this.setState({ open: false })
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.setState({ open: false })
+                })
+        }
+
+
     }
 
     handleProgress() {
@@ -187,12 +218,19 @@ export class Game extends Component {
         this.setState({ open: true })
     }
 
+    // handleOpenCalculo(){
+    //     this.setState({openCalculo:true})
+    // }
+    // handleCloseCalculo(){
+    //     this.setState({openCalculo:false})
+    // }
+
     render() {
-        const { total_monedas, resCalculo, open } = this.state
+        const { total_monedas, resCalculo, open, porTrans, porAlma, porSED, porVias } = this.state
         return (
             <Fragment>
                 <Calculo valor={resCalculo} total_monedas={total_monedas} />
-                <Negocio nombre={'Transmisión'} />
+                <Negocio nombre={'Transmisión'} porcentaje={porTrans} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][0]} suma={() => this.handleClickSuma('colombia', 'transmisión')} resta={() => this.handleClickResta('colombia', 'transmisión')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][0]} suma={() => this.handleClickSuma('peru', 'transmisión')} resta={() => this.handleClickResta('peru', 'transmisión')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][0]} suma={() => this.handleClickSuma('chile', 'transmisión')} resta={() => this.handleClickResta('chile', 'transmisión')} />
@@ -201,19 +239,19 @@ export class Game extends Component {
                 <Field pais={"Panamá"} campo={this.nego_pais[5][0]} suma={() => this.handleClickSuma('panama', 'transmisión')} resta={() => this.handleClickResta('panama', 'transmisión')} />
                 <Field pais={"EE.UU"} campo={this.nego_pais[6][0]} suma={() => this.handleClickSuma('EEUU', 'transmisión')} resta={() => this.handleClickResta('EEUU', 'transmisión')} />
                 <Field pais={"México"} campo={this.nego_pais[7][0]} suma={() => this.handleClickSuma('mexico', 'transmisión')} resta={() => this.handleClickResta('mexico', 'transmisión')} />
-                <Negocio nombre={'Almacenamiento'} />
+                <Negocio nombre={'Almacenamiento'} porcentaje={porAlma} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][1]} suma={() => this.handleClickSuma('colombia', 'almacenamiento')} resta={() => this.handleClickResta('colombia', 'almacenamiento')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][1]} suma={() => this.handleClickSuma('peru', 'almacenamiento')} resta={() => this.handleClickResta('peru', 'almacenamiento')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][1]} suma={() => this.handleClickSuma('chile', 'almacenamiento')} resta={() => this.handleClickResta('chile', 'almacenamiento')} />
                 <Field pais={"Brasil"} campo={this.nego_pais[3][1]} suma={() => this.handleClickSuma('brasil', 'almacenamiento')} resta={() => this.handleClickResta('brasil', 'almacenamiento')} />
                 <Field pais={"EE.UU"} campo={this.nego_pais[6][1]} suma={() => this.handleClickSuma('EEUU', 'almacenamiento')} resta={() => this.handleClickResta('EEUU', 'almacenamiento')} />
                 <Field pais={"México"} campo={this.nego_pais[7][1]} suma={() => this.handleClickSuma('mexico', 'almacenamiento')} resta={() => this.handleClickResta('mexico', 'almacenamiento')} />
-                <Negocio nombre={'SED'} />
+                <Negocio nombre={'SED'} porcentaje={porSED} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][2]} suma={() => this.handleClickSuma('colombia', 'SED')} resta={() => this.handleClickResta('colombia', 'SED')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][2]} suma={() => this.handleClickSuma('peru', 'SED')} resta={() => this.handleClickResta('peru', 'SED')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][2]} suma={() => this.handleClickSuma('chile', 'SED')} resta={() => this.handleClickResta('chile', 'SED')} />
                 <Field pais={"Brasil"} campo={this.nego_pais[3][2]} suma={() => this.handleClickSuma('brasil', 'SED')} resta={() => this.handleClickResta('brasil', 'SED')} />
-                <Negocio nombre={'Vías'} />
+                <Negocio nombre={'Vías'} porcentaje={porVias} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][3]} suma={() => this.handleClickSuma('colombia', 'vias')} resta={() => this.handleClickResta('colombia', 'vias')} />
                 <Field pais={"Perú"} campo={this.nego_pais[1][3]} suma={() => this.handleClickSuma('peru', 'vias')} resta={() => this.handleClickResta('peru', 'vias')} />
                 <Field pais={"Chile"} campo={this.nego_pais[2][3]} suma={() => this.handleClickSuma('chile', 'vias')} resta={() => this.handleClickResta('chile', 'vias')} />
@@ -223,6 +261,7 @@ export class Game extends Component {
                 <Botones calcular={() => this.submitHandler()} datos={this.nego_pais} envio={() => this.submitSend()} />
                 <Progress abrir={open} />
                 <BasicModal />
+                {/* <CalculoMsg  open={openCalculo} handleCloseCalculo={this.handleCloseCalculo()}/> */}
             </Fragment>
         )
     }

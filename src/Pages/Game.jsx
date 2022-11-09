@@ -7,6 +7,7 @@ import { BasicModal } from '../Components/BasicModal.jsx'
 import { Progress } from '../Components/Progress.jsx'
 import { getLocalStorage } from '../helpers.js'
 import { CalculoMsg } from '../Components/CalculoMsg.jsx'
+import { ErrorMsg } from '../Components/ErrorMsg.jsx'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -22,7 +23,9 @@ export class Game extends Component {
             porAlma: 0,
             porSED: 0,
             porVias: 0,
-            openCalculo: false
+            openCalculo: false,
+            openErrorMsg: false,
+            errorMsg: ''
         }
         this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
@@ -37,16 +40,16 @@ export class Game extends Component {
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]]
-        this.porcentaje_monedas = [[0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5, 0.5]]
-        this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
-        this.porcentaje_negocio = [0.5, 0.5, 0.5, 0.5]
+        this.porcentaje_monedas = [[0.24,0.02,0.02,0.08],
+        [0.12,0.01,0.01,0.0],
+        [0.08,0.01,0.02,0.1],
+        [0.28,0.03,0.04,0.14],
+        [0.05,0.0,0.0,0.0],
+        [0.05,0.0,0.0,0.01],
+        [0.17,0.30,0.0,0.0],
+        [0.06,0.03,0.0,0.07]]
+        this.porcentaje_pais = [0.35,0.14,0.21,0.50,0.05,0.05,0.47,0.16,0.0]
+        this.porcentaje_negocio = [1.0,0.4,0.1,0.4]
     }
 
     handleClickSuma(pais, negocio) {
@@ -61,7 +64,9 @@ export class Game extends Component {
                 }))
             }
         } else {
-            alert(res.msg)
+            this.setState({errorMsg: res.msg})
+            this.handleOpenErrorMsg()
+            // alert(res.msg)
         }
         this.porcentajeAsignadoNegocio()
 
@@ -94,29 +99,9 @@ export class Game extends Component {
         } else {
             return {
                 'sucess': false,
-                'msg': `Ha superado el número total de monedas permitidos en este país`
+                'msg': `Ha superado el número total de monedas permitidos en ${negocio} - ${pais}`
             };
         }
-
-
-        // if (this.nego_pais[indexP][indexN] + 1 < this.total * this.porcentaje_monedas[indexP][indexN]) {
-        //     if (this.totalXPais(pais) < this.porcentaje_pais[indexP] * this.total) {
-        //         return {
-        //             'sucess': true,
-        //             'msg': 'Todo ok'
-        //         };
-        //     } else {
-        //         return {
-        //             'sucess': false,
-        //             'msg': `El total del país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
-        //         };
-        //     }
-        // } else {
-        //     return {
-        //         'sucess': false,
-        //         'msg': `Ha superado el número total de monedas permitidos en este país`
-        //     };
-        // }
     }
 
     totalXPais(pais) {
@@ -251,9 +236,15 @@ export class Game extends Component {
     handleCloseCalculo() {
         this.setState({ openCalculo: false })
     }
+    handleOpenErrorMsg() {
+        this.setState({ openErrorMsg: true })
+    }
+    handleCloseErrorMsg() {
+        this.setState({ openErrorMsg: false })
+    }
 
     render() {
-        const { total_monedas, resCalculo, open, porTrans, porAlma, porSED, porVias, openCalculo } = this.state
+        const { total_monedas, resCalculo, open, porTrans, porAlma, porSED, porVias, openCalculo, openErrorMsg, errorMsg } = this.state
         return (
             <Fragment>
                 <Calculo valor={resCalculo} total_monedas={total_monedas} />
@@ -289,6 +280,7 @@ export class Game extends Component {
                 <Progress abrir={open} />
                 <BasicModal />
                 <CalculoMsg open={openCalculo} handleCloseCalculo={() => this.handleCloseCalculo()} calculo={resCalculo} />
+                <ErrorMsg open={openErrorMsg} mensaje={errorMsg} handleClose={() => this.handleCloseErrorMsg()} />
             </Fragment>
         )
     }

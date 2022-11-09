@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.error_contenedor{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.error_msg{
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}

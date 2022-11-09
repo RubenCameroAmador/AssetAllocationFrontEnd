@@ -46,7 +46,7 @@ export class Game extends Component {
         [0.5, 0.5, 0.5, 0.5],
         [0.5, 0.5, 0.5, 0.5]]
         this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
-        this.porcentaje_negocio = [0.5,0.5,0.5,0.5]
+        this.porcentaje_negocio = [0.5, 0.5, 0.5, 0.5]
     }
 
     handleClickSuma(pais, negocio) {
@@ -71,16 +71,24 @@ export class Game extends Component {
         //Este método valida el total de monedas
         const indexP = this.paises.indexOf(pais)
         const indexN = this.negocio.indexOf(negocio)
-        if (this.nego_pais[indexP][indexN] + 1 < this.total * this.porcentaje_monedas[indexP][indexN]) {
-            if (this.totalXPais(pais) < this.porcentaje_pais[indexP] * this.total) {
-                return {
-                    'sucess': true,
-                    'msg': 'Todo ok'
-                };
-            } else {
+
+        if (this.nego_pais[indexP][indexN] < this.total * this.porcentaje_monedas[indexP][indexN]) {
+            if (this.totalXNegocio(negocio) < this.total * this.porcentaje_negocio[indexN]) {  //negocio
+                if (this.totalXPais(pais) < this.total * this.porcentaje_pais[indexP]) { //país
+                    return {
+                        'sucess': true,
+                        'msg': 'Todo ok'
+                    };
+                } else {  //sino de país
+                    return {
+                        'sucess': false,
+                        'msg': `El total de monedas del país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
+                    };
+                }
+            } else {  //sino de negocio
                 return {
                     'sucess': false,
-                    'msg': `El total del país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
+                    'msg': `El total de monedas del negocio ${negocio} excede el ${this.porcentaje_negocio[indexN] * 100}% permitido`
                 };
             }
         } else {
@@ -89,6 +97,26 @@ export class Game extends Component {
                 'msg': `Ha superado el número total de monedas permitidos en este país`
             };
         }
+
+
+        // if (this.nego_pais[indexP][indexN] + 1 < this.total * this.porcentaje_monedas[indexP][indexN]) {
+        //     if (this.totalXPais(pais) < this.porcentaje_pais[indexP] * this.total) {
+        //         return {
+        //             'sucess': true,
+        //             'msg': 'Todo ok'
+        //         };
+        //     } else {
+        //         return {
+        //             'sucess': false,
+        //             'msg': `El total del país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
+        //         };
+        //     }
+        // } else {
+        //     return {
+        //         'sucess': false,
+        //         'msg': `Ha superado el número total de monedas permitidos en este país`
+        //     };
+        // }
     }
 
     totalXPais(pais) {
@@ -217,11 +245,11 @@ export class Game extends Component {
     handleProgress() {
         this.setState({ open: true })
     }
-    handleOpenCalculo(){
-        this.setState({openCalculo:true})
+    handleOpenCalculo() {
+        this.setState({ openCalculo: true })
     }
-    handleCloseCalculo(){
-        this.setState({openCalculo:false})
+    handleCloseCalculo() {
+        this.setState({ openCalculo: false })
     }
 
     render() {
@@ -260,7 +288,7 @@ export class Game extends Component {
                 <Botones calcular={() => this.submitHandler()} datos={this.nego_pais} envio={() => this.submitSend()} />
                 <Progress abrir={open} />
                 <BasicModal />
-                <CalculoMsg  open={openCalculo} handleCloseCalculo={() => this.handleCloseCalculo()} calculo={resCalculo}/>
+                <CalculoMsg open={openCalculo} handleCloseCalculo={() => this.handleCloseCalculo()} calculo={resCalculo} />
             </Fragment>
         )
     }

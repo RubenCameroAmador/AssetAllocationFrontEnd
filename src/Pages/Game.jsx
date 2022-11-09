@@ -87,13 +87,13 @@ export class Game extends Component {
                 } else {  //sino de país
                     return {
                         'sucess': false,
-                        'msg': `El total de monedas del país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
+                        'msg': `El total de monedas distribuidas en el país ${pais} excede el ${this.porcentaje_pais[indexP] * 100}% permitido`
                     };
                 }
             } else {  //sino de negocio
                 return {
                     'sucess': false,
-                    'msg': `El total de monedas del negocio ${negocio} excede el ${this.porcentaje_negocio[indexN] * 100}% permitido`
+                    'msg': `El total de monedas distribuidas en el negocio ${negocio} excede el ${this.porcentaje_negocio[indexN] * 100}% permitido`
                 };
             }
         } else {

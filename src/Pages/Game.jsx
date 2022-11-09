@@ -9,7 +9,6 @@ import { getLocalStorage } from '../helpers.js'
 import { CalculoMsg } from '../Components/CalculoMsg.jsx'
 import { ErrorMsg } from '../Components/ErrorMsg.jsx'
 import { Horizonte } from '../Components/Horizonte.jsx'
-import {Charts} from '../Components/Charts.jsx'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -284,7 +283,6 @@ export class Game extends Component {
                 <BasicModal />
                 <CalculoMsg open={openCalculo} handleCloseCalculo={() => this.handleCloseCalculo()} calculo={resCalculo} />
                 <ErrorMsg open={openErrorMsg} mensaje={errorMsg} handleClose={() => this.handleCloseErrorMsg()} />
-                <Charts datos={this.nego_pais}/>
             </Fragment>
         )
     }

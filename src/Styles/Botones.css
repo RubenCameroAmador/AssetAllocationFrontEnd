@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     height: 40px;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 30px;
     border: 0px;
     background: #2193b0;  /* fallback for old browsers */
@@ -27,4 +27,18 @@
     font-size: 16px;
     font-weight: 400;
     color: #FFFFFF;
+}
+
+.botones_dos{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.boton_dos_inside{
+    width: 125px;
+}
+
+.last_button{
+    margin-bottom: 20px;
 }

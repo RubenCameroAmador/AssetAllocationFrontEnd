@@ -17,14 +17,10 @@ const style = {
     p: 4,
 };
 
-export function Charts({ datos }) {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+export function Charts({ datos, open, handleClose }) {
 
     return (
         <div>
-            <button onClick={handleOpen}>Gráficas</button>
             <Modal
                 open={open}
                 onClose={handleClose}

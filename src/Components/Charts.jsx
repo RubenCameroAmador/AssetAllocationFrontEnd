@@ -35,7 +35,6 @@ export function Charts({ datos }) {
                     <div>
                         <>
                             <h2 className='chart_title'>De esta forma ha distribuido sus monedas</h2>
-                            <h3 className='chart_label'>Negocios</h3>
                             <PieChart datos = {datos}/> 
                         </>
                     </div>

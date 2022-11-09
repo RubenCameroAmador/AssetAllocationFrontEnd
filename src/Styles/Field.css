@@ -50,3 +50,11 @@
     border-color: #cdcdcd;
     
 }
+
+.containerCircle{
+    background-color: blueviolet;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    margin-right: 5px ;
+}

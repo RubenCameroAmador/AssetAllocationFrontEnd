@@ -6,7 +6,7 @@ import { Calculo } from '../Components/Calculo.jsx'
 import { BasicModal } from '../Components/BasicModal.jsx'
 import { Progress } from '../Components/Progress.jsx'
 import { getLocalStorage } from '../helpers.js'
-// import { CalculoMsg } from '../Components/CalculoMsg.jsx'
+import { CalculoMsg } from '../Components/CalculoMsg.jsx'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -22,7 +22,7 @@ export class Game extends Component {
             porAlma: 0,
             porSED: 0,
             porVias: 0,
-            // openCalculo: false
+            openCalculo: false
         }
         this.total = 100;
         this.negocio = ['transmisión', 'almacenamiento', 'SED', 'vias']
@@ -46,6 +46,7 @@ export class Game extends Component {
         [0.5, 0.5, 0.5, 0.5],
         [0.5, 0.5, 0.5, 0.5]]
         this.porcentaje_pais = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+        this.porcentaje_negocio = [0.5,0.5,0.5,0.5]
     }
 
     handleClickSuma(pais, negocio) {
@@ -181,12 +182,12 @@ export class Game extends Component {
                     this.setState(state => ({
                         resCalculo: response.data.resultado
                     }))
-                    alert('¡Cálculo éxitoso!: ' + response.data.resultado) //Justo aquí, positivo
+                    // alert('¡Cálculo éxitoso!: ' + response.data.resultado) //Justo aquí, positivo
+                    this.handleOpenCalculo()
                 } else {
                     alert(response.data.msg) //Justo aquí, negativo
                 }
                 this.setState({ open: false })
-                console.log("despues de: ", this.state.open)
             })
             .catch(error => {
                 console.log(error)
@@ -214,19 +215,17 @@ export class Game extends Component {
     }
 
     handleProgress() {
-        console.log("antes de: ", this.state.open)
         this.setState({ open: true })
     }
-
-    // handleOpenCalculo(){
-    //     this.setState({openCalculo:true})
-    // }
-    // handleCloseCalculo(){
-    //     this.setState({openCalculo:false})
-    // }
+    handleOpenCalculo(){
+        this.setState({openCalculo:true})
+    }
+    handleCloseCalculo(){
+        this.setState({openCalculo:false})
+    }
 
     render() {
-        const { total_monedas, resCalculo, open, porTrans, porAlma, porSED, porVias } = this.state
+        const { total_monedas, resCalculo, open, porTrans, porAlma, porSED, porVias, openCalculo } = this.state
         return (
             <Fragment>
                 <Calculo valor={resCalculo} total_monedas={total_monedas} />
@@ -261,7 +260,7 @@ export class Game extends Component {
                 <Botones calcular={() => this.submitHandler()} datos={this.nego_pais} envio={() => this.submitSend()} />
                 <Progress abrir={open} />
                 <BasicModal />
-                {/* <CalculoMsg  open={openCalculo} handleCloseCalculo={this.handleCloseCalculo()}/> */}
+                <CalculoMsg  open={openCalculo} handleCloseCalculo={() => this.handleCloseCalculo()} calculo={resCalculo}/>
             </Fragment>
         )
     }

@@ -10,6 +10,7 @@ export class Field extends Component {
     render() {
         return (
             <div className='container'>
+                <div className='containerCircle'></div>
                 <div className='container_pais'>
                     <h3>{this.props.pais}</h3>
                 </div>

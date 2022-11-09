@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import {PieChart} from './PieChart.jsx'
+import '../Styles/Charts.css'
 
 const style = {
     position: 'absolute',
@@ -32,7 +34,9 @@ export function Charts({ datos }) {
                 <Box sx={style}>
                     <div>
                         <>
-                            <h2 className='intro_header'>Van a ser las gráficas</h2>
+                            <h2 className='chart_title'>De esta forma ha distribuido sus monedas</h2>
+                            <h3 className='chart_label'>Negocios</h3>
+                            <PieChart datos = {datos}/> 
                         </>
                     </div>
                 </Box>

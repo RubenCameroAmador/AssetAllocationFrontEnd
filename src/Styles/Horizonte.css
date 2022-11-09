@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.titulo_horizonte {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-weight: 700;
+    font-size:  30px;
+    margin: 10 auto;
+}

@@ -44,8 +44,7 @@ export class Login extends Component {
                 window.location.href = this.ruta
             })
             .catch(error => {
-                this.setState({ open: false, openErrorMsg: true, errorMsg: 'Bad username or password' })
-                // alert('Bad username or password')
+                this.setState({ open: false, openErrorMsg: true, errorMsg: 'Nombre de usuario o contraseña incorrecta' })
             })
     }
     handleProgress(){
@@ -61,7 +60,7 @@ export class Login extends Component {
     }
 
     render() {
-        const { nickname, password, open, openErrorMsg, errorMsg  } = this.state
+        const { nickname, password, open, openErrorMsg, errorMsg } = this.state
         return (
             <Fragment>
                 <div className='contenedor_login'>

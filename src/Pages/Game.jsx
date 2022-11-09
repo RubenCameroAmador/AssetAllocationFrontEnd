@@ -8,6 +8,8 @@ import { Progress } from '../Components/Progress.jsx'
 import { getLocalStorage } from '../helpers.js'
 import { CalculoMsg } from '../Components/CalculoMsg.jsx'
 import { ErrorMsg } from '../Components/ErrorMsg.jsx'
+import { Horizonte } from '../Components/Horizonte.jsx'
+import {Charts} from '../Components/Charts.jsx'
 
 import '../Styles/Game.css'
 import axios from 'axios'
@@ -247,6 +249,7 @@ export class Game extends Component {
         const { total_monedas, resCalculo, open, porTrans, porAlma, porSED, porVias, openCalculo, openErrorMsg, errorMsg } = this.state
         return (
             <Fragment>
+                <Horizonte año={2025}/>
                 <Calculo valor={resCalculo} total_monedas={total_monedas} />
                 <Negocio nombre={'Transmisión'} porcentaje={porTrans} />
                 <Field pais={"Colombia"} campo={this.nego_pais[0][0]} suma={() => this.handleClickSuma('colombia', 'transmisión')} resta={() => this.handleClickResta('colombia', 'transmisión')} />
@@ -281,6 +284,7 @@ export class Game extends Component {
                 <BasicModal />
                 <CalculoMsg open={openCalculo} handleCloseCalculo={() => this.handleCloseCalculo()} calculo={resCalculo} />
                 <ErrorMsg open={openErrorMsg} mensaje={errorMsg} handleClose={() => this.handleCloseErrorMsg()} />
+                <Charts datos={this.nego_pais}/>
             </Fragment>
         )
     }

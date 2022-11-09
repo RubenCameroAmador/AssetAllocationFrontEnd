@@ -5,7 +5,7 @@ import '../Styles/CalculoMsg.css'
 // import { useEffect } from 'react'
 // import { getLocalStorage } from '../helpers';
 
-let style = {
+const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',

@@ -4,6 +4,7 @@ import { getLocalStorage, saveInLocalStorage } from '../helpers';
 import '../Styles/Login.css'
 import { Progress } from '../Components/Progress.jsx'
 import isaLogo from '../image/isa_login.png'
+import { ErrorMsg } from '../Components/ErrorMsg.jsx'
 
 export class Login extends Component {
     //const { activateAuth } = useContext(UserContext)
@@ -12,7 +13,9 @@ export class Login extends Component {
         this.state = {
             nickname: getLocalStorage('user_name'),
             password: '',
-            open: false
+            open: false,
+            openErrorMsg: false,
+            errorMsg: ''
         }
         this.ruta = ""
     }
@@ -41,8 +44,8 @@ export class Login extends Component {
                 window.location.href = this.ruta
             })
             .catch(error => {
-                this.setState({ open: false })
-                alert('Bad username or password')
+                this.setState({ open: false, openErrorMsg: true, errorMsg: 'Bad username or password' })
+                // alert('Bad username or password')
             })
     }
     handleProgress(){
@@ -50,8 +53,15 @@ export class Login extends Component {
         this.setState({open: true})
     }
 
+    handleOpenErrorMsg() {
+        this.setState({ openErrorMsg: true })
+    }
+    handleCloseErrorMsg() {
+        this.setState({ openErrorMsg: false })
+    }
+
     render() {
-        const { nickname, password, open } = this.state
+        const { nickname, password, open, openErrorMsg, errorMsg  } = this.state
         return (
             <Fragment>
                 <div className='contenedor_login'>
@@ -93,6 +103,7 @@ export class Login extends Component {
                     </div>
                 </div>
                 <Progress abrir={open} />
+                <ErrorMsg open={openErrorMsg} mensaje={errorMsg} handleClose={() => this.handleCloseErrorMsg()} />
             </Fragment>
         )
     }
